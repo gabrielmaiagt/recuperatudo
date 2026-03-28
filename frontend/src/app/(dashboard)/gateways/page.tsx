@@ -1,5 +1,7 @@
 "use client";
 
+import { API_URL } from "@/lib/api";
+
 import { useState, useEffect } from "react";
 import { Plus, Copy, MoreHorizontal, Webhook, Activity, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,7 +29,7 @@ export default function GatewaysPage() {
 
   const fetchGateways = async () => {
     try {
-      const res = await fetch('http://localhost:3333/api/gateways');
+      const res = await fetch(`${API_URL}/gateways`);
       if (res.ok) {
         const data = await res.json();
         setGateways(data);
@@ -53,7 +55,7 @@ export default function GatewaysPage() {
     }
     
     try {
-      const res = await fetch('http://localhost:3333/api/gateways', {
+      const res = await fetch(`${API_URL}/gateways`, {
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify({ name: newGatewayName, type: newGatewayType })
@@ -76,7 +78,7 @@ export default function GatewaysPage() {
   const confirmDelete = async () => {
     if (!gatewayToDelete) return;
     try {
-      const res = await fetch(`http://localhost:3333/api/gateways/${gatewayToDelete.id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_URL}/gateways/${gatewayToDelete.id}`, { method: 'DELETE' });
       if (res.ok) {
          toast.success("Gateway deletado com sucesso.");
          fetchGateways();
@@ -95,7 +97,7 @@ export default function GatewaysPage() {
     }
     
     try {
-      const res = await fetch(`http://localhost:3333/api/gateways/${gatewayToRename.id}`, {
+      const res = await fetch(`${API_URL}/gateways/${gatewayToRename.id}`, {
          method: 'PUT',
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify({ name: renameValue })

@@ -1,5 +1,7 @@
 "use client";
 
+import { API_URL } from "@/lib/api";
+
 import { useState, useEffect } from "react";
 import { Save, Mail, Key, User, ShieldCheck, Link as LinkIcon, AlertCircle, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -24,7 +26,7 @@ export default function SettingsPage() {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch('http://localhost:3333/api/settings');
+      const res = await fetch(`${API_URL}/settings`);
       if (res.ok) {
         const data = await res.json();
         setResendApiKey(data.resendApiKey || "");
@@ -58,7 +60,7 @@ export default function SettingsPage() {
          payload.evolutionKey = evolutionKey;
       }
 
-      const res = await fetch('http://localhost:3333/api/settings', {
+      const res = await fetch(`${API_URL}/settings`, {
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify(payload)

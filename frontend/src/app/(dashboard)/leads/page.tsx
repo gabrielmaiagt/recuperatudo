@@ -1,5 +1,7 @@
 "use client";
 
+import { API_URL } from "@/lib/api";
+
 import { useState, useEffect } from "react";
 import { Filter, Search, History, Check, Clock, RotateCw, ExternalLink, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,7 +20,7 @@ export default function LeadsPage() {
 
   const fetchLeads = async () => {
     try {
-      const res = await fetch('http://localhost:3333/api/leads');
+      const res = await fetch(`${API_URL}/leads`);
       if (res.ok) setLeads(await res.json());
     } catch(e) { console.error(e); } finally { setIsLoading(false); }
   }

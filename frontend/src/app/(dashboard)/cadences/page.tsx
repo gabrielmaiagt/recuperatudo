@@ -1,5 +1,7 @@
 "use client";
 
+import { API_URL } from "@/lib/api";
+
 import { useState, useEffect } from "react";
 import { Plus, Settings, Play, Pause, Trash2, ArrowRight, Save, Clock, Mail, MessageCircle, CheckCircle2, MoreHorizontal, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -32,14 +34,14 @@ export default function CadencesPage() {
 
   const fetchGateways = async () => {
     try {
-      const res = await fetch('http://localhost:3333/api/gateways');
+      const res = await fetch(`${API_URL}/gateways`);
       if (res.ok) setGateways(await res.json());
     } catch(e) { console.error(e); }
   }
 
   const fetchAutomations = async () => {
     try {
-      const res = await fetch('http://localhost:3333/api/automations');
+      const res = await fetch(`${API_URL}/automations`);
       if (res.ok) setCadences(await res.json());
     } catch(e) { console.error(e); } finally { setIsLoading(false); }
   }
@@ -87,7 +89,7 @@ export default function CadencesPage() {
         steps: flowSteps
       };
 
-      const res = await fetch('http://localhost:3333/api/automations', {
+      const res = await fetch(`${API_URL}/automations`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -109,7 +111,7 @@ export default function CadencesPage() {
   const handleDelete = async (id: string) => {
     if(!confirm("Tem certeza que deseja apagar essa Automação? O fluxo de vendas dela irá parar imediatamente.")) return;
     try {
-      const res = await fetch(`http://localhost:3333/api/automations/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_URL}/automations/${id}`, { method: 'DELETE' });
       if(res.ok) {
         toast.success("Automação excluída.");
         fetchAutomations();
@@ -120,7 +122,7 @@ export default function CadencesPage() {
   const handleToggleStatus = async (id: string, currentStatus: string) => {
     const newStatus = currentStatus === "ACTIVE" ? "PAUSED" : "ACTIVE";
     try {
-      const res = await fetch(`http://localhost:3333/api/automations/${id}/status`, { 
+      const res = await fetch(`${API_URL}/automations/${id}/status`, { 
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })

@@ -1,5 +1,7 @@
 "use client";
 
+import { API_URL } from "@/lib/api";
+
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,7 +16,7 @@ export default function DashboardPage() {
   const fetchDashboardData = async () => {
     setIsRefreshing(true);
     try {
-      const res = await fetch('http://localhost:3333/api/analytics');
+      const res = await fetch(`${API_URL}/analytics`);
       if (res.ok) {
         const json = await res.json();
         setData(json);
